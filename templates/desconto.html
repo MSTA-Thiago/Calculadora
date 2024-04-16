@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <title>Calculadora de Desconto no Mercado Livre de Energia</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand">Calculadora de Desconto no Mercado Livre de Energia</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="https://energialivre.cemig.com.br/duvidas-frequentes/">Dúvidas?</a></li>
+              <li><a href="http://calculadoramercadolivre.com.br/contato">Contato</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="container">
+            <form action="." method="POST">
+                <div class="container">
+                   {{errors}}
+                   {{result}}
+                    <label>Entre com os dados</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                   <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+
+                   <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label for="InputDesconto"> <br> Entre com o desconto:</label>
+                    <input name = "email" type="email" class="form-control" id="InputEmail" aria-describedby="InputEmail" placeholder="%">
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                </div>
+                <button type="submit" class="btn btn-primary">Calcular Preço</button>
+<!--<a href="http://carolineruella.pythonanywhere.com/metodologia">Deseja entender a Metodologia?</a>-->
+            </form>
+        </div>
+        </div>
+        </div><!-- /.container -->
+    </body>
+</html>

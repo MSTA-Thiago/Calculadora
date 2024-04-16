@@ -1,0 +1,322 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <title>Calculadora de Desconto no Mercado Livre de Energia</title>
+    <style>
+            .btn-calcular {
+                background-color: #556B2F;
+                color: white;
+            }
+            .metodologia-link {
+                color: #556B2F;
+                margin-top: 20px;
+                display: block;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand">Calculadora de Desconto no Mercado Livre de Energia</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="https://energialivre.cemig.com.br/duvidas-frequentes/">Dúvidas?</a></li>
+              <li><a href="http://calculadoramercadolivre.com.br/contato">Contato</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="container">
+            <form action="." method="POST">
+                <div class="container">
+                   {{errors}}
+                   {{result}}
+                    <label>Descubra Seu Desconto ao Entrar no Mercado Livre de Energia: Preencha os Campos e Calcule Agora!</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Conta"> <br>Razão Social:</label>
+                                <input name = "conta" type="text" class="form-control" id="Conta" aria-describedby="Conta" placeholder="Razão Social">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CNPJ"> <br> CNPJ:</label>
+                                <input name = "cnpj" type="text" class="form-control" id="CNPJ" aria-describedby="CNPJ" placeholder="CNPJ">
+                            </div>
+                        </div>
+                    </div>
+                   <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputDist">Empresa Distribuidora</label>
+                            <select id="inputDist" class="form-control" name="dist">
+                                <option selected>CEMIG-D</option>
+                                <option>CPFL Jaguari</option>
+                                <option>CEBDIS</option>
+                                <option>Celesc-DIS</option>
+                                <option>CELPE</option>
+                                <option>CEMIG PSR</option>
+                                <option>COELBA</option>
+                                <option>COPEL</option>
+                                <option>COSERN</option>
+                                <option>CPFL-Paulista</option>
+                                <option>EDP ES</option>
+                                <option>Enel CE</option>
+                                <option>Enel GO</option>
+                                <option>Enel SP</option>
+                                <option>ENERGISA MS</option>
+                                <option>ENERGISA MT</option>
+                                <option>ENERGISA PB</option>
+                                <option>EQUATORIAL PA</option>
+                                <option>LIGHT</option>
+                                <option>Elektro (Experimental)</option>
+                                <option>Enel RJ  (Experimental)</option>
+                                <option>Enel SP  (Experimental)</option>
+                                <option>EMG  (Experimental)</option>
+                                <option>AmE  (Experimental)</option>
+                                <option>CEEE-D  (Experimental)</option>
+                                <option>ENERGISA TO  (Experimental)</option>
+                                <option>RGE Sul  (Experimental)</option>
+<!--
+'CPFL Jaguari',
+ 'CPFL Leste Paulista',
+ 'CPFL Mococa',
+ 'CPFL Santa Cruz',
+ 'CPFL Sul Paulista',
+ 'EBO',
+ 'ELFSM',
+ 'CERIPA',
+ 'ENEL RJ',
+ 'CERES',
+ 'EFLJC',
+ 'EFLUL',
+ 'CEMIG-D',
+ 'CPFL-PAULISTA',
+ 'EMS',
+ 'CERPRO',
+ 'CERRP',
+ 'RGE SUL',
+ 'UHENPAL',
+ 'COELBA',
+ 'COSERN',
+ 'ENEL CE',
+ 'ESE',
+ 'CERTAJA',
+ 'EPB',
+ 'CELPE',
+ 'CERCOS',
+ 'CNEE',
+ 'EDEVP',
+ 'EEB',
+ 'ESS',
+ 'CERNHE',
+ 'EMR',
+ 'ENF',
+ 'RGE',
+ 'COCEL',
+ 'COPEL-DIS',
+ 'DMED',
+ 'CFLO',
+ 'DEMEI',
+ 'ELETROCAR',
+ 'HIDROPAN',
+ 'MUXENERGIA',
+ 'CERAL ARAPOTI',
+ 'ELETROPAULO',
+ 'ETO',
+ 'CERIS',
+ 'EMT',
+ 'CELESC-DIS',
+ 'DCELT',
+ 'EDP ES',
+ 'Equatorial PA',
+ 'COOPERALIANÇA',
+ 'CEBDIS',
+ 'PACTO ENERGIA PR',
+ 'ELEKTRO',
+ 'Equatorial AL',
+ 'Equatorial MA',
+ 'Equatorial PI',
+ 'CEDRAP',
+ 'CEDRI',
+ 'CHESP',
+ 'Equatorial GO',
+ 'CEJAMA',
+ 'CERAÇÁ',
+ 'CERAL ANITÁPOLIS',
+ 'CERBRANORTE',
+ 'CEREJ',
+ 'CERGAL',
+ 'CERGRAL',
+ 'CERPALO',
+ 'CERSUL',
+ 'COOPERA',
+ 'COOPERMILA',
+ 'COORSEL',
+ 'CPFL- PIRATININGA',
+ 'EDP SP',
+ 'CEEE-D',
+ 'CERIM',
+ 'CERMC',
+ 'CETRIL',
+ 'AME',
+ 'Boa Vista',
+ 'CERR',
+ 'LIGHT',
+ 'CERON',
+ 'ELETROACRE',
+ 'SULGIPE',
+ 'CERTEL ENERGIA',
+ 'CERILUZ',
+ 'CERMISSÕES',
+ 'COOPERLUZ',
+ 'COPREL',
+ 'CRELUZ-D',
+ 'CRERAL',
+ 'CEPRAG',
+ 'CERGAPA',
+ 'CERMOFUL',
+ 'CERTREL',
+ 'COOPERCOCAL',
+ 'CEA',
+ 'CERCI',
+ 'CASTRO - DIS',
+ 'CERAL ARARUAMA',
+ 'CERFOX',
+ 'CERTHIL',
+ 'CEGERO',
+ 'CERSAD DISTRIBUIDORA',
+ 'COOPERZEM',
+ 'CERVAM',
+ 'CODESAM',
+ 'COOPERNORTE',
+ 'COOPERSUL',
+ 'CEMIRIM',
+ 'CELETRO'
+ -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="inputState">Subgrupo</label>
+                            <select id="inputState" class="form-control" name="subgrupo">
+                                <option selected>A2</option>
+                                <option>A3</option>
+                                <option>A3a</option>
+                                <option>A4</option>
+                                <option>AS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="inputState">Modalidade Tarifária</label>
+                            <select id="inputState" class="form-control" name="modalidade">
+                                <option selected>Azul</option>
+                                <option>Verde</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                   <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="InputDemandaHP">Digite a demanda HP:</label>
+                                <input name = "InputDemandaHP" type="number" class="form-control" id="InputDemandaHP" aria-describedby="InputDemandaHP" placeholder="em kW">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="InputDemandaHFP">Digite a demanda HFP:</label>
+                                <input name = "InputDemandaHFP" type="number" class="form-control" id="InputDemandaHFP" aria-describedby="InputDemandaHFP" placeholder="em kW">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="InputConsumoHP">Digite o consumo HP:</label>
+                                <input name = "InputConsumoHP" type="number" class="form-control" id="InputConsumoHP" aria-describedby="InputConsumoHP" placeholder="em kWh">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="InputConsumoHFP">Digite o consumo HFP:</label>
+                                <input name = "InputConsumoHFP" type="number" class="form-control" id="InputConsumoHFP" aria-describedby="InputConsumoHFP" placeholder="em kWh">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ICMS">ICMS: (%)</label>
+                                <input name = "ICMS" type="number" class="form-control" id="ICMS" aria-describedby="ICMS" placeholder="em %" value="18">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PASEP">PIS/PASEP: (%)</label>
+                                <input name = "PASEP" type="number" class="form-control" id="PASEP" aria-describedby="PASEP" placeholder="em %" value="6.5">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="COFINS">COFINS: (%)</label>
+                                <input name = "COFINS" type="number" class="form-control" id="COFINS" aria-describedby="COFINS" placeholder="em %" value="6.5">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <label>Na sua última conta</label>
+                <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="InputIluminacao">Entre com o valor de iluminação pública:</label>
+                                <input name = "InputIluminacao" type="number" class="form-control" id="InputIluminacao" aria-describedby="InputIluminacao" placeholder="R$">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="InputReativo">Entre com o valor cobrado de reativo (se houver):</label>
+                                <input name = "InputReativo" type="number" class="form-control" id="InputReativo" aria-describedby="InputReativo" placeholder="R$">
+                                <small id="emailHelp" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+
+<!--
+                <div class="form-group">
+                    <label for="exampleInputEmail1"> <br> E-mail para recebimento do estudo completo</label>
+                    <input name = "email" type="email" class="form-control" id="InputEmail" aria-describedby="InputEmail" placeholder="Entre com e-mail">
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                </div>
+-->
+                <button type="submit" class="btn btn-primary btn-calcular">Calcular</button>
+                <a href="http://calculadoramercadolivre.com.br/metodologia" class="metodologia-link">Deseja entender a Metodologia?</a>
+
+
+            </form>
+        </div>
+        </div>
+        </div><!-- /.container -->
+    </body>
+</html>
