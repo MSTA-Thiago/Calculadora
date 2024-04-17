@@ -1,9 +1,5 @@
-
 {
- "functions": {
-    "/**/*.py": {
-      "maxDuration": 200}},
- "builds": [
+    "builds": [
         {
             "src": "flask_app.py",
             "use": "@vercel/python",
@@ -16,6 +12,9 @@
             "src": "/(.*)",
             "dest": "flask_app.py"
         }
-            ]
-   
+            ],
+  
+    "functions": {
+    "/*.py": {
+      "maxDuration": 200}}
 }
