@@ -13,9 +13,8 @@
     "functions": {
         "api/**/*": {
             "maxDuration": 299,
-            "includeFiles": "api/tarifas_aneel",
-            "includeFiles": "api/calculo_VDB",
-            "includeFiles": "api/calculo",
+            "includeFiles": "api/*.py"
+
         }
         }        
 
