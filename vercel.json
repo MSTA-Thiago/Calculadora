@@ -14,7 +14,7 @@
     }
 ],
     "functions": {
-        "src/(.*)": {
+        "/**/*": {
             "maxDuration": 300
         }
     }
