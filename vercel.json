@@ -12,4 +12,19 @@
         "src": "/(.*)",
         "dest": "flask_app.py"
     }
-]}
+],
+    "functions": {
+        "flask_app.py": {
+            "maxDuration": 300
+        },
+        "tarifas_aneel.py": {
+            "maxDuration": 300
+        }
+
+    }
+
+
+}
+
+
+
