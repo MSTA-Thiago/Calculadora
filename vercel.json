@@ -3,5 +3,21 @@
   
     "functions": {
     "api/**/*": {
-      "maxDuration": 299}}
+      "maxDuration": 299}},
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/flask_app.py",
+            "use": "@vercel/python",
+            "config": {"maxDuration": 200}
+           }
+            ] ,
+
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "api/flask_app.py"
+        }
+            ]
+
 }
