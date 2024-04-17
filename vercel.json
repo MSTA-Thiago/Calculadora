@@ -3,5 +3,5 @@
   
     "functions": {
     "api/**/*.py": {
-      "maxDuration": 200}}
+      "maxDuration": 299}}
 }
