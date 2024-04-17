@@ -14,7 +14,7 @@
     }
 ],
     "functions": {
-        "*.py": {
+        "/(.*)": {
             "maxDuration": 300
         }
     }
