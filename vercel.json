@@ -4,7 +4,7 @@
 {
     "version": 2,
     "functions": {
-        "/**/*": {"maxDuration": 299}
+        "Calculadora-main/**/*": {"maxDuration": 299}
     },
     "builds": [
         {
