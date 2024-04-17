@@ -2,6 +2,6 @@
    
   
     "functions": {
-    "Calculadora/*.py": {
+    "api/users/**/*.py": {
       "maxDuration": 200}}
 }
