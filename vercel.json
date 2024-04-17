@@ -1,7 +1,9 @@
 
-
-
 {
+ "functions": {
+    "/**/*": {
+      "maxDuration": 200}},
+
     "version": 2,
     
     "builds": [
@@ -15,11 +17,8 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "flask_app.py",
-            "config": {"maxDuration": 200}
+            "dest": "flask_app.py"
         }
             ]
 }
-
-
-
+ 
