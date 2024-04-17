@@ -2,6 +2,6 @@
    
   
     "functions": {
-    "/*.py": {
+    "api/*.py": {
       "maxDuration": 200}}
 }
