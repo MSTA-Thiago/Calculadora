@@ -14,13 +14,9 @@
     }
 ],
     "functions": {
-        "flask_app.py": {
-            "maxDuration": 300
-        },
-        "tarifas_aneel.py": {
+        "*.py": {
             "maxDuration": 300
         }
-
     }
 
 
