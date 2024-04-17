@@ -4,7 +4,7 @@
         {
             "src": "api/flask_app.py",
             "use": "@vercel/python",
-            "config": {"maxDuration": 200}
+            "config": {"maxDuration": 299}
            }
             ] ,
 
