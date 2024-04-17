@@ -12,12 +12,7 @@
         "src": "/(.*)",
         "dest": "flask_app.py"
     }
-],
-    "functions": {
-        "/**/*": {
-            "maxDuration": 300
-        }
-    }
+]
 }
 
 
