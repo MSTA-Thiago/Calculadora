@@ -2,7 +2,7 @@
 # coding: utf-8
 #import pandas as pd
 #from datetime import datetime
-from tarifas_aneel import tarifa_atual
+from api.tarifas_aneel import tarifa_atual
 
 incentivada = 110
 convencional = 75
