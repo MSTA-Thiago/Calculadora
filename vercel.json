@@ -1,18 +1,24 @@
+
+
+
 {
     "version": 2,
+    "functions": {
+        "/**/*": {"maxDuration": 299}
+    },
     "builds": [
         {
             "src": "flask_app.py",
             "use": "@vercel/python"
            }
-] ,
+            ] ,
 
-"routes": [
-    {
-        "src": "/(.*)",
-        "dest": "flask_app.py"
-    }
-]
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "flask_app.py"
+        }
+            ]
 }
 
 
