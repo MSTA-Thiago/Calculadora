@@ -15,7 +15,8 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "flask_app.py"
+            "dest": "flask_app.py",
+            "config": {"maxDuration": 200}
         }
             ]
 }
