@@ -1,5 +1,5 @@
-from tarifas_aneel import tarifa_atual
-from calculo_VDB import cal_VDB
+from api.tarifas_aneel import tarifa_atual
+from api.calculo_VDB import cal_VDB
 
 # Inicializar
 imposto = 1
