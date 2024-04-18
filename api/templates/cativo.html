@@ -318,5 +318,36 @@
         </div>
         </div>
         </div><!-- /.container -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Resultado:</h3>
+                    <textarea id="resultado" class="form-control" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+        
     </body>
+    
+
+    <script>
+        document.querySelector('.btn-calcular').addEventListener('click', function(event) {
+            event.preventDefault();
+    
+            var formData = new FormData(document.querySelector('form'));
+    
+            fetch('/simulacao-preco', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById('resultado').value = result;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+
 </html>
