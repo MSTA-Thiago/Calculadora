@@ -104,10 +104,11 @@ def home():
 
             TE_HFP, TUSD_HFP, TE_HP, TUSD_HP, Demanda_P, Demanda_FP, DscREH, distribuidoras = tarifa_atual(dist, subgrupo,
                                                                                                    modalidade)
-
-            assert isinstance(preco_medio_livre, object)
-            print("O preço médio é:", preco_medio_livre)
-
+            result_string = str(preco_medio_livre)
+            #assert isinstance(preco_medio_livre, object)
+            #print("O preço médio é:", preco_medio_livre)
+            return jsonify({'resultado': result_string})
+            
     return render_template('cativo.html', errors=errors, result=result)
 
 
