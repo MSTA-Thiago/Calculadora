@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <title>Calculadora de Desconto no Mercado Livre de Energia</title>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">Calculadora de Desconto no Mercado Livre de Energia</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="https://energialivre.cemig.com.br/duvidas-frequentes/">Dúvidas?</a></li>
+                <li><a href="http://calculadoramercadolivre.com.br/contato">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <form action="." method="POST">
+            <div class="container">
+                {{errors}}
+                {{result}}
+                <label>Entre com os dados</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Conta"><br>Razão Social:</label>
+                            <input name="conta" type="text" class="form-control" id="Conta" aria-describedby="Conta" placeholder="Razão Social">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="CNPJ"><br>CNPJ:</label>
+                            <input name="cnpj" type="text" class="form-control" id="CNPJ" aria-describedby="CNPJ" placeholder="CNPJ">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="distribuidora">Empresa Distribuidora</label>
+                            <select id="distribuidora" class="form-control" name="distribuidora">
+                                <option selected>CEMIG-D</option>
+                                <option>CPFL Jaguari</option>
+                                <option>CEBDIS</option>
+                                <option>Celesc-DIS</option>
+                                <option>CELPE</option>
+                                <option>CEMIG PSR</option>
+                                <option>COELBA</option>
+                                <option>COPEL</option>
+                                <option>COSERN</option>
+                                <option>CPFL-Paulista</option>
+                                <option>EDP ES</option>
+                                <option>Enel CE</option>
+                                <option>Enel GO</option>
+                                <option>Enel SP</option>
+                                <option>ENERGISA MS</option>
+                                <option>ENERGISA MT</option>
+                                <option>ENERGISA PB</option>
+                                <option>EQUATORIAL PA</option>
+                                <option>LIGHT</option>
+                                <option>Elektro (Experimental)</option>
+                                <option>Enel RJ  (Experimental)</option>
+                                <option>Enel SP  (Experimental)</option>
+                                <option>EMG  (Experimental)</option>
+                                <option>AmE  (Experimental)</option>
+                                <option>CEEE-D  (Experimental)</option>
+                                <option>ENERGISA TO  (Experimental)</option>
+                                <option>RGE Sul  (Experimental)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="subgrupo">Subgrupo</label>
+                            <select id="subgrupo" class="form-control" name="subgrupo">
+                                <option selected>A2</option>
+                                <option>A3</option>
+                                <option>A3a</option>
+                                <option>A4</option>
+                                <option>AS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="InputModal">Modalidade Tarifária</label>
+                            <select id="InputModal" class="form-control" name="InputModal">
+                                <option selected>Azul</option>
+                                <option>Verde</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="InputDemandaHP">Digite a demanda HP:</label>
+                            <input name="InputDemandaHP" type="number" class="form-control" id="InputDemandaHP" aria-describedby="InputDemandaHP" placeholder="em kW">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="InputDemandaHFP">Digite a demanda HFP:</label>
+                            <input name="InputDemandaHFP" type="number" class="form-control" id="InputDemandaHFP" aria-describedby="InputDemandaHFP" placeholder="em kW">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="InputConsumoHP">Digite o consumo HP:</label>
+                            <input name="InputConsumoHP" type="number" class="form-control" id="InputConsumoHP" aria-describedby="InputConsumoHP" placeholder="em kW">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="InputConsumoHFP">Digite o consumo HFP:</label>
+                            <input name="InputConsumoHFP" type="number" class="form-control" id="InputConsumoHFP" aria-describedby="InputConsumoHFP" placeholder="em kW">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="ICMS">ICMS: (%)</label>
+                            <input name="ICMS" type="number" class="form-control" id="ICMS" aria-describedby="ICMS" placeholder="em %" value="18">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="PASEP">PIS/PASEP: (%)</label>
+                            <input name="PASEP" type="number" class="form-control" id="PASEP" aria-describedby="PASEP" placeholder="em %" value="6.5">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="COFINS">COFINS: (%)</label>
+                            <input name="COFINS" type="number" class="form-control" id="COFINS" aria-describedby="COFINS" placeholder="em %" value="6.5">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="preco_pmt">Para cálculo do desconto, informe o preço obtido:</label>
+                            <input name="preco_pmt" type="number" class="form-control" id="preco_pmt" aria-describedby="preco_pmt" placeholder="em R$">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Calcular</button>
+                <a href="http://calculadoramercadolivre.com.br/metodologia">Deseja entender a Metodologia?</a>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Resultado:</h3>
+                <textarea id="resultado" class="form-control" rows="5" readonly></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.querySelector('.btn.btn-primary').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        var formData = new FormData(document.querySelector('form'));
+
+        fetch('/simulacao-preco', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+            document.getElementById('resultado').value = result;
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+    });
+</script>
+</html>
