@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, send_file
 from api.calculadora import tarifa_atual, do_calculation
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+import tempfile
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
+PDF_DIR = tempfile.gettempdir()
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -48,25 +50,25 @@ def calculo():
                 # Chamar do_calculation com os novos valores dos formulários e t_atual atualizado
                 result = do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, preco_pmt, modalidade)
                 total_livre, total_cativo, desconto, preco_medio_livre = result
-                result_string1 = f"Total Livre: {total_livre}"
-                result_string2 = f"Total Cativo: {total_cativo}"
-                result_string3 = f"Desconto: {desconto}%"
-                result_string4 = f"Preço Médio Livre: {preco_medio_livre}"
+                    # Criar strings de resultados
+                result_strings = [
+                    f"Razão Social: {razao_social}",
+                    f"CNPJ: {cnpj}",
+                    f"Total Livre: {total_livre}",
+                    f"Total Cativo: {total_cativo}",
+                    f"Desconto: {desconto}%",
+                    f"Preço Médio Livre: {preco_medio_livre}"
+                ]
+    
                 # Gerar o PDF
-                c = canvas.Canvas("calculation_results.pdf", pagesize=letter)
-                c.drawString(100, 750, "Razão social: " + razao_social)
-                c.drawString(100, 735, "CNPJ: " + cnpj)
-                c.drawString(100, 720, result_string1)
-                c.drawString(100, 705, result_string2)
-                c.drawString(100, 690, result_string3)
-                c.drawString(100, 675, result_string4)
+                file_path = f"{PDF_DIR}/calculation_results.pdf"
+                c = canvas.Canvas(file_path, pagesize=letter)
+                for i, text in enumerate(result_strings):
+                    c.drawString(100, 750 - (i * 15), text)
                 c.save()
 
-                # Redirecionar o usuário para o PDF gerado
-                return send_file("calculation_results.pdf", as_attachment=True, attachment_filename="calculation_results.pdf")
-
-            except Exception as e:
-                errors["pdf"] = "Erro ao gerar o PDF: {}".format(str(e))
+            # Redirecionar o usuário para o PDF gerado
+            return send_file(file_path, as_attachment=False)
 
     return render_template('calculo.html', errors=errors, result=result)
 
