@@ -16,9 +16,9 @@ ICMS = 18
 PASEP = 5
 
 # Import .csv files
-parte1 = pd.read_csv('parte1.csv', sep=';', encoding='ISO-8859-1')
-parte2 = pd.read_csv('parte2.csv', sep=';', encoding='ISO-8859-1')
-parte3 = pd.read_csv('parte3.csv', sep=';', encoding='ISO-8859-1')
+parte1 = pd.read_csv('api/parte1.csv', sep=';', encoding='ISO-8859-1')
+parte2 = pd.read_csv('api/parte2.csv', sep=';', encoding='ISO-8859-1')
+parte3 = pd.read_csv('api/parte3.csv', sep=';', encoding='ISO-8859-1')
 
 # Concatenar os DataFrames
 tarifas = pd.concat([parte1, parte2, parte3])
