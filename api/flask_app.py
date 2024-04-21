@@ -63,7 +63,7 @@ def calculo():
                 c.save()
 
                 # Redirecionar o usuário para o PDF gerado
-                return send_file("calculation_results.pdf", as_attachment=False, attachment_filename="calculation_results.pdf")
+                return send_file("calculation_results.pdf", as_attachment=True, attachment_filename="calculation_results.pdf")
 
             except Exception as e:
                 errors["pdf"] = "Erro ao gerar o PDF: {}".format(str(e))
