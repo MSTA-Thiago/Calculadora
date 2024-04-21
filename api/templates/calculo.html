@@ -168,23 +168,23 @@
         </div>
     </div>
 </body>
-<script>
-    document.querySelector('.btn.btn-primary').addEventListener('click', function(event) {
-        event.preventDefault();
+<!--<script>-->
+<!--    document.querySelector('.btn.btn-primary').addEventListener('click', function(event) {-->
+<!--        event.preventDefault();-->
 
-        var formData = new FormData(document.querySelector('form'));
+<!--        var formData = new FormData(document.querySelector('form'));-->
 
-        fetch('/simulacao-preco', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(result => {
-            document.getElementById('resultado').value = result;
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
-    });
-</script>
+<!--        fetch('/simulacao-preco', {-->
+<!--            method: 'POST',-->
+<!--            body: formData-->
+<!--        })-->
+<!--        .then(response => response.text())-->
+<!--        .then(result => {-->
+<!--            document.getElementById('resultado').value = result;-->
+<!--        })-->
+<!--        .catch(error => {-->
+<!--            console.error('Erro:', error);-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </html>

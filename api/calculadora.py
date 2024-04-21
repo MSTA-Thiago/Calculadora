@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
+
 # Definição das variáveis
 distribuidora = 'EMS'
 subgrupo = 'A2'
@@ -15,9 +16,9 @@ ICMS = 18
 PASEP = 5
 
 # Import .csv files
-parte1 = pd.read_csv('api/parte1.csv', sep=';', encoding='ISO-8859-1')
-parte2 = pd.read_csv('api/parte2.csv', sep=';', encoding='ISO-8859-1')
-parte3 = pd.read_csv('api/parte3.csv', sep=';', encoding='ISO-8859-1')
+parte1 = pd.read_csv('parte1.csv', sep=';', encoding='ISO-8859-1')
+parte2 = pd.read_csv('parte2.csv', sep=';', encoding='ISO-8859-1')
+parte3 = pd.read_csv('parte3.csv', sep=';', encoding='ISO-8859-1')
 
 # Concatenar os DataFrames
 tarifas = pd.concat([parte1, parte2, parte3])
@@ -30,7 +31,7 @@ tarifas = tarifas[(tarifas['DscDetalhe'] == "Não se aplica")]
 tarifas = tarifas[(tarifas['DscModalidadeTarifaria'] == "Azul") | (tarifas['DscModalidadeTarifaria'] == "Verde")]
 tarifas = tarifas[
     (tarifas['DscSubGrupo'] == "A2") | (tarifas['DscSubGrupo'] == "A3") | (tarifas['DscSubGrupo'] == "A3a") | (
-                tarifas['DscSubGrupo'] == "A4") | (tarifas['DscSubGrupo'] == "AS")]
+            tarifas['DscSubGrupo'] == "A4") | (tarifas['DscSubGrupo'] == "AS")]
 tarifas = tarifas.reset_index(drop=True)
 tarifas['VlrTUSD'] = tarifas['VlrTUSD'].str.replace(',', '.')
 tarifas['VlrTE'] = tarifas['VlrTE'].str.replace(',', '.')
@@ -96,6 +97,7 @@ def tarifa_atual(distribuidora, subgrupo, InputModal):
 
 t_atual = tarifa_atual(distribuidora, subgrupo, InputModal)
 
+tarifa_atual(distribuidora, subgrupo, InputModal)
 
 def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, preco_pmt,
                    InputModal):
@@ -178,12 +180,13 @@ def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, Inp
 
         desconto = (1 - total_livre / total_cativo) * 100
         # Adicionar desconto
-        print(total_livre, total_cativo, desconto, preco_medio_livre)
+        print(total_livre)
+        print(total_cativo)
+        print(desconto)
+        print(preco_medio_livre)
         return total_livre, total_cativo, desconto, preco_medio_livre
     except:
         return 'error', 0, 0, 0
 
 
-"""**Cálculo e OUTPUTs**"""
-tarifa_atual(distribuidora, subgrupo, InputModal)
 do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, preco_pmt, InputModal)
