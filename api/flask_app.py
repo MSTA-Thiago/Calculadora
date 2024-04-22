@@ -1,8 +1,13 @@
-from flask import Flask, render_template, request, Response, send_file
-from api.calculadora import tarifa_atual, do_calculation
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+from flask import Flask, render_template, request, Response
 from io import BytesIO
+from reportlab.lib.pagesizes import landscape, A4
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.charts.barcharts import VerticalBarChart
+from api.calculadora import tarifa_atual, do_calculation
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -65,22 +70,79 @@ def gerar_pdf():
             cnpj = form_data["cnpj"]
             result = do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP,
                                     preco_pmt, modalidade)
-            total_livre, total_cativo, desconto, preco_medio_livre = result
-            result_string1 = f"Total Livre: {total_livre}"
-            result_string2 = f"Total Cativo: {total_cativo}"
-            result_string3 = f"Desconto: {desconto}%"
-            result_string4 = f"Preço Médio Livre: {preco_medio_livre}"
-            buffer = BytesIO()
-            c = canvas.Canvas(buffer)
-            c.drawString(100, 750, "Razão social: " + razao_social)
-            c.drawString(100, 735, "CNPJ: " + cnpj)
-            c.drawString(100, 720, result_string1)
-            c.drawString(100, 705, result_string2)
-            c.drawString(100, 690, result_string3)
-            c.drawString(100, 675, result_string4)
-            c.save()
+            total_livre, total_cativo, desconto, total_desconto = result
+            # Arredondando os valores para duas casas decimais
+            total_livre = round(total_livre, 2)
+            total_cativo = round(total_cativo, 2)
+            desconto = round(desconto, 2)
+            total_desconto = round(total_desconto, 2)
 
+            result_string1 = f"Total Livre: {total_livre:.2f}"
+            result_string2 = f"Total Cativo: {total_cativo:.2f}"
+            result_string3 = f"Desconto: {desconto:.2f}%"
+            result_string4 = f"Total do desconto: {total_desconto:.2f}"
+            # Criação do buffer para armazenar o PDF
+            buffer = BytesIO()
+
+            # Criação do canvas para o PDF
+            pagesize = landscape(A4)
+            c = canvas.Canvas(buffer, pagesize=pagesize)
+
+            buffer = BytesIO()
+
+
+            # Criação do canvas para o PDF
+            pagesize = landscape(A4)
+            c = canvas.Canvas(buffer, pagesize=pagesize)
+
+            # Título
+            title_font = 'Helvetica-Bold'
+            title_color = '#556B2F'
+            title_text = "PROPOSTA PREÇO FIXO"
+            c.setFont(title_font, 14)
+            c.setFillColor(title_color)
+            title_width = c.stringWidth(title_text)
+            title_x = (pagesize[0] - title_width) / 2
+            title_y = pagesize[1] - 50
+            c.drawString(title_x, title_y, title_text)
+
+            # Demais textos
+            normal_font = 'Helvetica'
+            normal_color = 'Black'
+            normal_size = 12
+            c.setFont(normal_font, normal_size)
+            c.setFillColor(normal_color)
+            c.drawString(100, title_y - 50, "Razão social: " + razao_social)
+            c.drawString(100, title_y - 70, "CNPJ: " + cnpj)
+            c.drawString(100, title_y - 90, result_string1)
+            c.drawString(100, title_y - 110, result_string2)
+            c.drawString(100, title_y - 130, result_string3)
+            c.drawString(100, title_y - 150, result_string4)
+
+            # Adicionando o gráfico de barras
+            drawing = Drawing(400, 200)
+            data = [total_cativo, total_livre, total_desconto]
+            categories = ['Total Cativo', 'Total Livre', 'Total Desconto']
+            bc = VerticalBarChart()
+            bc.x = 50
+            bc.y = 50
+            bc.height = 150
+            bc.width = 300
+            bc.data = [data]
+            bc.strokeColor = colors.black
+            bc.bars[0].fillColor = colors.blue
+            bc.categoryAxis.categoryNames = categories
+            bc.categoryAxis.labels.angle = 30
+            bc.valueAxis.valueMin = 0
+            bc.valueAxis.valueMax = max(data) * 1.1
+            drawing.add(bc)
+            drawing.drawOn(c, 100, 150)  # Posição ajustada para o gráfico
+
+            # Salvar o canvas como PDF
+            c.save()
+            # Retorna o buffer
             buffer.seek(0)
+
             return Response(buffer.read(), content_type='application/pdf')
         except Exception as e:
             return f'Erro ao gerar o PDF: {str(e)}', 400
