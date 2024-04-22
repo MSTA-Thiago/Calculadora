@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
         </div>
     </nav>
     <div class="container">
-        <form action="." method="POST">
+        <form id="calc-form" method="POST">
             <div class="container">
                 {{errors}}
                 {{result}}
@@ -169,10 +169,10 @@
     </div>
 </body>
 <script>
-    document.querySelector('.btn.btn-primary').addEventListener('click', function(event) {
+    document.getElementById('calc-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        var formData = new FormData(document.querySelector('form'));
+        var formData = new FormData(document.getElementById('calc-form'));
 
         fetch('/simulacao-preco', {
             method: 'POST',
@@ -181,6 +181,35 @@
         .then(response => response.text())
         .then(result => {
             document.getElementById('resultado').value = result;
+
+            // Solicitação POST para /gerar_pdf
+            fetch('/gerar_pdf', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.blob()) // Processa a resposta como um objeto Blob
+            .then(blob => {
+                // Cria um objeto URL temporário para o Blob
+                const url = window.URL.createObjectURL(blob);
+                // Cria um link temporário
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // Define o nome do arquivo a ser baixado
+                a.download = 'resultado.pdf';
+                // Anexa o link ao corpo do documento
+                document.body.appendChild(a);
+                // Clica no link para iniciar o download
+                a.click();
+                // Remove o link do corpo do documento
+                document.body.removeChild(a);
+                // Revoga o URL do objeto Blob, liberando os recursos
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Erro ao gerar o PDF:', error);
+            });
+
         })
         .catch(error => {
             console.error('Erro:', error);
@@ -188,3 +217,4 @@
     });
 </script>
 </html>
+
