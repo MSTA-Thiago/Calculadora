@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, Response
 from api.calculadora import tarifa_atual, do_calculation
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from io import BytesIO
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -70,6 +71,27 @@ def calculo():
 
     return render_template('calculo.html', errors=errors, result=result)
 
+@app.route('/gerar_pdf', methods=['GET'])
+def gerar_pdf():
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer)
+    razao_social = "Minha Empresa"
+    cnpj = "123456789"
+    result_string1 = "Resultado 1: 42"
+    result_string2 = "Resultado 2: 3.14"
+    result_string3 = "Resultado 3: Python é incrível!"
+    result_string4 = "Resultado 4: Copilot é meu amigo virtual!"
+
+    c.drawString(100, 750, "Razão social: " + razao_social)
+    c.drawString(100, 735, "CNPJ: " + cnpj)
+    c.drawString(100, 720, result_string1)
+    c.drawString(100, 705, result_string2)
+    c.drawString(100, 690, result_string3)
+    c.drawString(100, 675, result_string4)
+    c.save()
+
+    buffer.seek(0)
+    return Response(buffer.read(), content_type='application/pdf')
 
 if __name__ == '__main__':
     app.run(debug=True)
