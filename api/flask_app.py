@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, send_file
 from api.calculadora import tarifa_atual, do_calculation
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
