@@ -1,3 +1,4 @@
+import urllib
 import pandas as pd
 from datetime import datetime
 
@@ -15,13 +16,9 @@ InputConsumoHFP = 20000
 ICMS = 18
 PASEP = 5
 
-# Import .csv files
-parte1 = pd.read_csv('api/parte1.csv', sep=';', encoding='ISO-8859-1')
-parte2 = pd.read_csv('api/parte2.csv', sep=';', encoding='ISO-8859-1')
-parte3 = pd.read_csv('api/parte3.csv', sep=';', encoding='ISO-8859-1')
-
 # Concatenar os DataFrames
-tarifas = pd.concat([parte1, parte2, parte3])
+url = 'https://dadosabertos.aneel.gov.br/dataset/5a583f3e-1646-4f67-bf0f-69db4203e89e/resource/fcf2906c-7c32-4b9b-a637-054e7a5234f4/download/tarifas-homologadas-distribuidoras-energia-eletrica.csv'
+tarifas = pd.read_csv(url, low_memory=False,encoding='latin-1',sep=';')
 
 distribuidoras = tarifas['SigAgente'].dropna().unique().tolist()
 
