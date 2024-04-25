@@ -1,6 +1,7 @@
 from io import BytesIO
 from flask import Flask, render_template, request, Response
 import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
@@ -84,7 +85,7 @@ def gerar_pdf():
                                     PASEP, COFINS,
                                     preco_pm, certificadpR, energia, modalidade)
             total_livre, total_cativo, fatura_energia, fatura_uso, desconto, Benef_tusd, preco_medio_livre, desconto_tusd, Custo_global_ACR, Custo_global_ACL, Economia_reias, Equilibrio, total_desconto, preco_medio, Economia_anual = result
-            #Variaeis
+            # Variaeis
             # total_livre = round(total_livre, 2)
             # total_cativo = round(total_cativo, 2)
             # desconto = round(desconto, 2)
@@ -156,9 +157,10 @@ def gerar_pdf():
             # Criação do buffer para armazenar o PDF
             buffer = BytesIO()
 
-
             titulo = 'PROPOSTA PREÇO FIXO'
+
             texto1 = f"Estudo de viabilidade cliente: {str(razao_social)}, {str(cnpj)}"
+
             texto2 = (
                 f"Ao comprar {energia} considerando o perfil de consumo apresentado, ao preço médio de R$ "
                 f"{str(format(preco_medio, ',.2f')).replace(',', 'X').replace('.', ',').replace('X', '.')}/MWh (preço "
@@ -171,8 +173,8 @@ def gerar_pdf():
                 f"conforme gráfico abaixo."
             )
 
-            #legenda_grafico = 'Gráfico – Comparação e valor de economia entre os custos ACR e ACL, exemplo 1'
-            #fonte_grafico = 'Fonte: o autor'
+            # legenda_grafico = 'Gráfico – Comparação e valor de economia entre os custos ACR e ACL, exemplo 1'
+            # fonte_grafico = 'Fonte: o autor'
 
             texto3 = (
                 f"No mês de referência da análise seu custo global com energia no ACR seria de R$ "
@@ -198,7 +200,7 @@ def gerar_pdf():
                 f"ao custo ACL e reduzirão a economia indicada no estudo. Trata-se de um estudo de caráter estimativo."
             )
 
-            textos = [texto1, texto2, texto3, texto4, texto5, texto6]
+            textos = [texto2, texto3, texto4, texto5, texto6]
 
             # Crie um objeto PDF
             doc = SimpleDocTemplate(buffer, pagesize=letter)
@@ -221,17 +223,24 @@ def gerar_pdf():
             style_justified.firstLineIndent = 20
             style_justified.leading = 15
 
+            # Texto 1
+            style_paragrafo1 = ParagraphStyle(name="pasragrafo1", parent=styles['Normal'], alignment=TA_JUSTIFY)
+            style_paragrafo1.fontName = 'Times-Roman'  # Define a fonte para Times-Roman
+            style_paragrafo1.fontSize = 12  # Define o tamanho da fonte para 12
+            style_paragrafo1.leading = 15
+
             # Legenda e fonte do grafico
             style_centered = ParagraphStyle(name='Centered', parent=styles['Normal'], alignment=TA_CENTER)
             style_centered.fontName = 'Times-Roman'
             style_centered.fontSize = 10
 
             content = []
-            content = [Paragraph(titulo, style_title), Spacer(1, 0.5 * inch)]
+            content = [Paragraph(titulo, style_title), Spacer(1, 0.5 * inch), Paragraph(texto1, style_paragrafo1),
+                       Spacer(1, 12)]
 
             for texto in textos:
                 if texto == texto2:
-                    paragrafo = Paragraph(texto, style_centered)
+                    paragrafo = Paragraph(texto, style_justified)
                     content.append(paragrafo)
                     content.append(Image(tmpfile_path, width=312.5, height=250))  # Adiciona o grafico no pdf
 
@@ -259,7 +268,6 @@ def gerar_pdf():
 @app.route('/contato', methods=["GET", "POST"])
 def contato():
     return render_template('contato.html')
-
 
 
 if __name__ == "__main__":
