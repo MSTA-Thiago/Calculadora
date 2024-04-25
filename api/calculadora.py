@@ -2,21 +2,24 @@ import urllib
 import pandas as pd
 from datetime import datetime
 
-
 # Definição das variáveis
-distribuidora = 'EMS'
-subgrupo = 'A2'
-InputModal = 'Verde'
+distribuidora = 'CEMIG-D'
+subgrupo = 'A4'
+InputModal = 'Azul'
 
-preco_pmt = 200
-InputDemandaHP = 100
-InputDemandaHFP = 100
-InputConsumoHP = 5000
-InputConsumoHFP = 20000
+preco_pm = 179
+certificadpR = 1
+InputDemandaHP = 300
+InputDemandaHFP = 350
+InputConsumoHP = 15000
+InputConsumoHFP = 180000
 ICMS = 18
-PASEP = 5
+PASEP = 1
+COFINS = 4
 
-# Concatenar os DataFrames
+energia = "Energia incentivada especial (I5)"
+
+
 url = 'https://dadosabertos.aneel.gov.br/dataset/5a583f3e-1646-4f67-bf0f-69db4203e89e/resource/fcf2906c-7c32-4b9b-a637-054e7a5234f4/download/tarifas-homologadas-distribuidoras-energia-eletrica.csv'
 tarifas = pd.read_csv(url, low_memory=False,encoding='latin-1',sep=';')
 
@@ -96,7 +99,9 @@ t_atual = tarifa_atual(distribuidora, subgrupo, InputModal)
 
 tarifa_atual(distribuidora, subgrupo, InputModal)
 
-def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, preco_pmt,
+
+def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, COFINS,
+                   preco_pm, certificadpR, energia,
                    InputModal):
     try:
         TE_FP = t_atual[0]
@@ -107,7 +112,8 @@ def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, Inp
         TUSDd_FP = t_atual[5]
         TUSDe = t_atual[7]
 
-        imposto = (1 / (1 - (ICMS / 100))) * (1 / (1 - (PASEP / 100)))
+        imposto = (1 / (1 - ((PASEP + COFINS) / 100))) * (1 / (1 - (ICMS / 100)))
+        preco_pmt = preco_pm + certificadpR
         # Cativo
         # Demanda
         if InputModal == 'Azul':
@@ -150,6 +156,7 @@ def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, Inp
         # Encargo
         comp_encargo_p = InputConsumoHP * TUSDe_P * imposto
         comp_encargo_fp = InputConsumoHFP * TUSDe_FP * imposto
+        comp_encargo_CovEsc = ((InputConsumoHP + InputConsumoHFP) * ((9.48 + 4.03) / 1000) * imposto)
 
         # Descontos
         if InputModal == 'Azul':
@@ -164,26 +171,67 @@ def do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, Inp
             desconto_fio_unico = TUSDd_FP * InputDemandaHFP
             desconto_fio_p = TUSDe * InputConsumoHP
 
-        desconto = (desconto_fio_unico + desconto_fio_fp + desconto_fio_p) * 0.5
+        #Tipo de energia
+        if energia == "Convencional":
+            energia_valor = 0
+        elif energia == "Energia convencional especial (I0)":
+            energia_valor = 0
+        elif energia == "Energia incentivada especial (I5)":
+            energia_valor = 0.5
+        elif energia == "Energia incentivada especial (I1)":
+            energia_valor = 1
+        elif energia == "Energia incentivada especial (I8)":
+            energia_valor = 0.8
+        elif energia == "Energia incentivada não especial (CQ5)":
+            energia_valor = 0.5
+        elif energia == "Energia incentivada não especial (CQ8)":
+            energia_valor = 0.8
+        else:
+            valor = 0
+
+        desconto_tusd = (desconto_fio_unico + desconto_fio_fp + desconto_fio_p) * energia_valor  # 0.5 É O INCENTIVO
 
         # Resumo Fatura Uso
-        fatura_uso = comp_fio_p + comp_fio_fp + comp_fio_unica + comp_encargo_p + comp_encargo_fp - desconto
+        fatura_uso = comp_fio_p + comp_fio_fp + comp_fio_unica + comp_encargo_p + comp_encargo_fp + comp_encargo_CovEsc - desconto_tusd
 
         # Fatura Energia
-        fatura_energia = (InputConsumoHP + InputConsumoHFP) * preco_pmt / (0.82 * 1000)
+        fatura_energia = (InputConsumoHP + InputConsumoHFP) * preco_pmt / ((1 - (ICMS) / 100) * 1000)
         # Resumo
         total_livre = fatura_uso + fatura_energia
         preco_medio_livre = total_livre / ((InputConsumoHP + InputConsumoHFP) / 1000)
+        total_desconto = total_cativo - total_livre
 
         desconto = (1 - total_livre / total_cativo) * 100
-        # Adicionar desconto
+        # inserções Thiago 23/04
+        Benef_tusd = desconto_tusd / ((InputConsumoHP + InputConsumoHFP) / 1000)
+        Custo_global_ACR = total_cativo / ((InputConsumoHP + InputConsumoHFP) / 1000)
+        Custo_global_ACL = total_livre / ((InputConsumoHP + InputConsumoHFP) / 1000)
+        Economia_reias = Custo_global_ACR - Custo_global_ACL
+        Equilibrio = ((total_cativo - fatura_uso) * (1 - ICMS / 100) * 1000) / (InputConsumoHP + InputConsumoHFP)
+        preco_medio = preco_pmt + certificadpR
+        Economia_anual = total_desconto *12
+
+
         print(total_livre)
         print(total_cativo)
         print(desconto)
+        print(total_desconto)
+        print(fatura_energia)
+        print(fatura_uso)
+        print(Benef_tusd)
         print(preco_medio_livre)
-        return total_livre, total_cativo, desconto, preco_medio_livre
+        print(desconto_tusd)
+        print(Custo_global_ACL)
+        print(Custo_global_ACR)
+        print(Economia_reias)
+        print(Equilibrio)
+        print(preco_medio)
+        print(Economia_anual)
+        #return total_livre, total_cativo, desconto, total_desconto
+        return total_livre, total_cativo, fatura_energia, fatura_uso, desconto, Benef_tusd, preco_medio_livre, desconto_tusd, Custo_global_ACR, Custo_global_ACL, Economia_reias, Equilibrio, total_desconto, preco_medio, Economia_anual
     except:
-        return 'error', 0, 0, 0
+        return 'error', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 
-do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, preco_pmt, InputModal)
+do_calculation(t_atual, InputDemandaHP, InputDemandaHFP, InputConsumoHP, InputConsumoHFP, ICMS, PASEP, COFINS,
+               preco_pm, certificadpR, energia, InputModal)
